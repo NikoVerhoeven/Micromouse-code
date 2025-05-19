@@ -15,9 +15,12 @@ int WallsRight[16] = { 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1 };
 int WallsDown[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1 };
 int WallsLeft[16] = { 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 };
 
-int FloodArray[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+int FloodArray[16] =  { 0, 0, 0, 0, 
+                        0, 0, 0, 0, 
+                        0, 0, 0, 0, 
+                        0, 0, 0, 1 };
 
-int position = 0;
+int position = 0;  //linksboven
 int direction = 2;  // 1 = boven, 2 = rechts, 3 = onder, 4 = links
 
 void FloodFill(int FloodArray[16], int WallsTop[16], int WallsRight[16], int WallsDown[16], int WallsLeft[16]) {
@@ -60,10 +63,10 @@ void FindNextStep(int FloodArray[16], int WallsTop[16], int WallsRight[16], int 
     int a = ((2 - direction) % 4);
     int b = ((direction - 2) % 4);
     if (a < 0) {
-      a +=4;
+      a += 4;
     }
     if (b < 0) {
-      b +=4;
+      b += 4;
     }
     if (a <= b) {
       TurnRight(a, direction);
@@ -133,8 +136,6 @@ void FindNextStep(int FloodArray[16], int WallsTop[16], int WallsRight[16], int 
 }
 
 void TurnRight(int turns, int &direction) {
-  analogWrite(MotorPin1EN, 180);
-  analogWrite(MotorPin2EN, 180);
   Serial.println("Right");
   Serial.println(turns);
   for (int i = 0; i < turns; i++) {
@@ -142,7 +143,7 @@ void TurnRight(int turns, int &direction) {
     digitalWrite(MotorPin12, HIGH);
     digitalWrite(MotorPin21, HIGH);
     digitalWrite(MotorPin22, LOW);
-    delay(650);
+    delay(400);
     digitalWrite(MotorPin11, LOW);
     digitalWrite(MotorPin12, LOW);
     digitalWrite(MotorPin21, LOW);
@@ -155,8 +156,6 @@ void TurnRight(int turns, int &direction) {
 }
 
 void TurnLeft(int turns, int &direction) {
-  analogWrite(MotorPin1EN, 180);
-  analogWrite(MotorPin2EN, 180);
   Serial.println("Left");
   Serial.println(turns);
   for (int i = 0; i < turns; i++) {
@@ -164,7 +163,8 @@ void TurnLeft(int turns, int &direction) {
     digitalWrite(MotorPin12, LOW);
     digitalWrite(MotorPin21, LOW);
     digitalWrite(MotorPin22, HIGH);
-    delay(650);
+    
+    delay(400);
     digitalWrite(MotorPin11, LOW);
     digitalWrite(MotorPin12, LOW);
     digitalWrite(MotorPin21, LOW);
@@ -178,20 +178,18 @@ void TurnLeft(int turns, int &direction) {
 
 
 void Forward() {
-  analogWrite(MotorPin1EN, 130);
-  analogWrite(MotorPin2EN, 130);
-
   digitalWrite(MotorPin11, HIGH);
   digitalWrite(MotorPin12, LOW);
-  delay(100);
+
   digitalWrite(MotorPin21, HIGH);
   digitalWrite(MotorPin22, LOW);
-  delay(730);
+  delay(470);
   digitalWrite(MotorPin11, LOW);
   digitalWrite(MotorPin12, LOW);
   digitalWrite(MotorPin21, LOW);
   digitalWrite(MotorPin22, LOW);
 }
+
 void setup() {
   pinMode(ResetKnopPin, INPUT);
   pinMode(IRpin1, INPUT);
@@ -207,8 +205,8 @@ void setup() {
   delay(20000);
   Serial.println("begin");
 
-  analogWrite(MotorPin1EN, 130);
-  analogWrite(MotorPin2EN, 130);
+  analogWrite(MotorPin1EN, 200);
+  analogWrite(MotorPin2EN, 200);
 
   digitalWrite(MotorPin11, LOW);
   digitalWrite(MotorPin12, HIGH);
